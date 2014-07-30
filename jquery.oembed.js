@@ -6,6 +6,7 @@
  * 
  * Orignal Author: Richard Chamorro 
  * Forked by Andrew Mee to Provide a slightly diffent kind of embedding 
+ * Forked by Brian Johnson with sligh modifications...
  * experience
  */
 (function($) {
@@ -113,7 +114,7 @@
         maxWidth: null,
         maxHeight: null,
         useResponsiveResize: false,
-        includeHandle: true,
+        includeHandle: false,
         embedMethod: 'auto',
         // "auto", "append", "fill"		
         onProviderNotFound: function() {
@@ -121,7 +122,23 @@
         beforeEmbed: function() {
         },
         afterEmbed: function() {
-        },
+    	$('.oembedall-container').find('[src]').each(function(i,v){ 
+			
+			var modifySrc = function(src){
+				src = src.replace("Start=true", "Start=false");
+				src = src.replace("autoplay=1", "autoplay=0");
+				src = src.replace("autoPlay=1", "autoPlay=0");
+				src = src.replace("autoPlay=true", "autoPlay=false");
+				src = src.replace("autoPlay=yes", "autoPlay=no");
+				src = src.replace("auto=1", "auto=0");
+				src = src.replace("autoStart=true", "autoStart=false");
+				src = src.replace("auto_play=true", "auto_play=false");				
+			};
+			
+			var src = $(v).attr('src');
+			$(v).attr('src', modifySrc(src));
+    	});
+    },
         onEmbed: false,
         onError: function() {
         },
